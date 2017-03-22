@@ -28,9 +28,17 @@ class File(ServiceObject):
                 return open(file.name)
         return None
 
-    def upload(self, path):
+    def upload(self, path_to_file):
         """Post file to data api"""
-        multipart_form_data = {'file': open(path, 'rb')}
+        multipart_form_data = {'file': open(path_to_file, 'rb')}
+        return self.__upload(multipart_form_data)
+
+    def upload_from_data(self, data, content_type, extension):
+        """Post file to data api"""
+        multipart_form_data = {'file': (extension, data, content_type)}
+        return self.__upload(multipart_form_data)
+
+    def __upload(self, multipart_form_data):
         response = self.client.post_file_helper(self.url_segments, multipart_form_data)
         if is_request_success(response):
             self.object_id = response.json()['ids'][0]

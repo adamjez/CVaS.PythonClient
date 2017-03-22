@@ -31,6 +31,10 @@ class Client(object):
         """TODO: docstring"""
         return File(None, self).upload(path)
 
+    def upload_data(self, data, content_type, extension):
+        """TODO: docstring"""
+        return File(None, self).upload_from_data(data, content_type, extension)
+
     def append_basic_headers(self, headers):
         """Creates basic HTTP headers for all requests"""
         headers = headers if headers is not None else {}
