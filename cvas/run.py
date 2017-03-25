@@ -27,6 +27,7 @@ class Run(ServiceObject):
 
     def parse_json(self, json_content):
         """TODO: docstring"""
+        self.object_id = json_content["id"]
         self.status = json_content["status"]
         if self.status != "notFinished":
             self.std_out = json_content["stdOut"]

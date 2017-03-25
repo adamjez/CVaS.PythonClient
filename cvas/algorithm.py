@@ -17,5 +17,5 @@ class Algorithm(ServiceObject):
 
         if is_request_success(response):
             content = response.json()
-            return Run(content["runId"], self.client, content)
+            return Run(content["id"], self.client, content)
         return None
