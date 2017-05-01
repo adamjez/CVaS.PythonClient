@@ -40,8 +40,9 @@ class File(ServiceObject):
 
     def __upload(self, multipart_form_data):
         response = self.client.post_file_helper(self.url_segments, multipart_form_data)
-        if is_request_success(response):
-            self.object_id = response.json()['ids'][0]
+        data = response.json()
+        if is_request_success(response) and len(data) > 0:
+            self.object_id = data[0]['id']
         return self
 
     def delete(self):
