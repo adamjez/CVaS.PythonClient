@@ -12,6 +12,8 @@ setup(
     author_email='adamjez@outlook.cz',
     packages=['cvas'],
     install_requires=[
-        'requests'
+        'requests',
+        'json',
+        'tempfile'
     ]
 )
