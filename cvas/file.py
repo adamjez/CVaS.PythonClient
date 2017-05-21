@@ -12,7 +12,7 @@ class File(ServiceObject):
         """TODO: docstring"""
         super(File, self).__init__(file_id, "/files", client)
 
-    def download(self):
+    def downloadAndOpen(self):
         """TODO: docstring"""
         if id is None:
             raise Exception('file does not exist')
@@ -27,6 +27,22 @@ class File(ServiceObject):
                 file.flush()
                 return open(file.name)
         return None
+
+    def download(self, file_name):
+        """TODO: docstring"""
+        if id is None:
+            raise Exception('file does not exist')
+        # Make HTTP get request
+        response = self.client.get_helper(self.get_endpoint())
+        if is_request_success(response):
+            with open(file_name, "wb") as file:
+                for block in response.iter_content(1024):
+                    if not block:
+                        break
+                    file.write(block)
+                file.flush()
+                return True
+        return False
 
     def upload(self, path_to_file):
         """Post file to data api"""
@@ -44,7 +60,7 @@ class File(ServiceObject):
         if is_request_success(response) and len(data) > 0:
             self.object_id = data[0]['id']
         return self
-
+        
     def delete(self):
         """Delete from data api"""
         result = self.client.delete_helper(self.get_endpoint())

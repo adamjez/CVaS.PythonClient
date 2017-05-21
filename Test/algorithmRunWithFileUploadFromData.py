@@ -1,7 +1,7 @@
 import cvas
 import sys
 
-client = cvas.client("zVes/1008G1YhtKNiNa0WY5ZGubLK+DYYu0g+e1hcmQ=", "http://cvas.azurewebsites.net")
+client = cvas.client("8bttfegqwfX5Do6rgHIF4t/5Eco7uYm8MoSrpn6p6S8=", "localhost:5000")
 
 with open("C:\\Users\\adamj\\OneDrive\\Study\\DP\\AlgorithmAssets\\car1.jpg", 'rb') as readFile:
     file = client.upload_data(readFile.read(), "image/jpeg", ".jpg")

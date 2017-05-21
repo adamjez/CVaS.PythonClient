@@ -12,6 +12,7 @@ class Run(ServiceObject):
         self.std_err = ""
         self.status = "notFinished"
         self.duration = 0
+        self.file = None
         if json_content is not None:
             self.parse_json(json_content)
 
@@ -33,3 +34,5 @@ class Run(ServiceObject):
             self.std_out = json_content["stdOut"]
             self.std_err = json_content["stdErr"]
             self.duration = json_content["duration"]
+            if "file" in json_content:
+                self.file = self.client.file(json_content["file"].rsplit('/')[-1])
