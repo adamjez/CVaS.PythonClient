@@ -1,6 +1,8 @@
 import cvas
 
-client = cvas.client("8bttfegqwfX5Do6rgHIF4t/5Eco7uYm8MoSrpn6p6S8=", "http://localhost:5000")
+client = cvas.client(
+    "8bttfegqwfX5Do6rgHIF4t/5Eco7uYm8MoSrpn6p6S8=", 
+    "http://localhost:5000")
 
 file = client.upload_file("lion-grayscale.jpg")
 
