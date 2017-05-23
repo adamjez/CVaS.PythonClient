@@ -7,32 +7,45 @@ import cvas
 from cvas.run import Run
 from cvas.algorithm import Algorithm
 from cvas.file import File
+from cvas.util import is_request_success
 
 class Client(object):
-    """TODO: docstring"""
+    """Represents client for communication with web service at given endpoint"""
     def __init__(self, api_key, api_endpoint=None):
-        """TODO: docstring"""
         self.api_key = api_key
         self.api_endpoint = api_endpoint if api_endpoint is not None else cvas.getApiAddress()
 
     def run(self, run_id):
-        """TODO: docstring"""
+        """Shortcut for creating run"""
         return Run(run_id, self).get()
 
     def algorithm(self, code_name):
-        """TODO: docstring"""
+        """Shortcut for creating algorithm"""
         return Algorithm(code_name, self)
 
+    def all_algorithms(self):
+        response = self.get_helper("/algorithms")
+
+        algorithms = []
+        if is_request_success(response):
+            content = response.json()
+            for alg in content:
+                algorithms.append(self.algorithm(alg["codeName"]))
+        else:
+            None
+
+        return algorithms
+
     def file(self, file_id):
-        """TODO: docstring"""
+        """Shortcut for creating run"""
         return File(file_id, self)
 
     def upload_file(self, path):
-        """TODO: docstring"""
+        """Shortcut for uploading file"""
         return File(None, self).upload(path)
 
     def upload_data(self, data, content_type, extension):
-        """TODO: docstring"""
+        """Shortcut for uploading data in memory"""
         return File(None, self).upload_from_data(data, content_type, extension)
 
     def append_basic_headers(self, headers):

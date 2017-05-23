@@ -7,18 +7,19 @@ from cvas.util import is_request_success
 import cvas.make_json_serializable
 
 class File(ServiceObject):
-    """TODO: docstring"""
+    """File represents uploaded file or result of algorithm run"""
     def __init__(self, file_id=None, client=None):
-        """TODO: docstring"""
         super(File, self).__init__(file_id, "/files", client)
+        self.content_type = None
 
     def downloadAndOpen(self):
-        """TODO: docstring"""
-        if id is None:
+        """Downloads file from web service and return it opened"""
+        if self.object_id is None:
             raise Exception('file does not exist')
         # Make HTTP get request
         response = self.client.get_helper(self.get_endpoint())
         if is_request_success(response):
+            self.content_type = response.headers['Content-Type']
             with tempfile.NamedTemporaryFile(delete=False) as file:
                 for block in response.iter_content(1024):
                     if not block:
@@ -29,12 +30,13 @@ class File(ServiceObject):
         return None
 
     def download(self, file_name):
-        """TODO: docstring"""
-        if id is None:
+        """Downloads file from web service """
+        if self.object_id is None:
             raise Exception('file does not exist')
         # Make HTTP get request
         response = self.client.get_helper(self.get_endpoint())
         if is_request_success(response):
+            self.content_type = response.headers['Content-Type']
             with open(file_name, "wb") as file:
                 for block in response.iter_content(1024):
                     if not block:
@@ -67,5 +69,4 @@ class File(ServiceObject):
         return is_request_success(result)
 
     def to_json(self):
-        """TODO: docstring"""
         return "local://" + str(self.object_id)

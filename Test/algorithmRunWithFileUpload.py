@@ -1,15 +1,17 @@
 import cvas
+import time
 
 client = cvas.client(
-    "8bttfegqwfX5Do6rgHIF4t/5Eco7uYm8MoSrpn6p6S8=", 
+    "fpfGmGL99O+3bM1BpV8vSQLeHxxocf+IeLMcKHFwfXU=", 
     "http://localhost:5000")
 
-file = client.upload_file("lion-grayscale.jpg")
+file = client.upload_file("grayscale.jpg")
 
 algorithm = client.algorithm("colorization")
 result = algorithm.run([file])
 
 while result.status == "notFinished":
+    time.sleep(1)
     result.get()
 
 print("Result: " + result.status)
@@ -18,4 +20,4 @@ print("StdErr: " +  result.std_err)
 print("Duration: " + str(result.duration) + " ms")
 
 if result.status == "success":
-    result.file.download("lion.jpg")
+    result.file.download("colorized.jpg")
